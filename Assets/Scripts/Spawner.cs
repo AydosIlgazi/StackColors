@@ -19,9 +19,9 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         InvokeRepeating("Spawn", 2.0f, 5.0f);
-        firstIndex = new Vector3(3f, 28f);
-        secondIndex = new Vector3(9f, 28f);
-        thirdIndex = new Vector3(15f, 28f);
+        firstIndex = new Vector3(3f, 1f,100f);
+        secondIndex = new Vector3(9f, 1f,100f);
+        thirdIndex = new Vector3(16f, 1f,100f);
     }
 
     // Update is called once per frame

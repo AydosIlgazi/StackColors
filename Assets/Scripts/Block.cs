@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    [SerializeField] float speed = 9f;
+    [SerializeField] float speed = 20f;
     GameObject user;
     float offset = 1f;
     Rigidbody rb;
@@ -25,14 +25,14 @@ public class Block : MonoBehaviour
     {
         if (!isCollisionOcurred)
         {
-            transform.Translate(Vector3.down * speed * Time.deltaTime);
+            transform.Translate(Vector3.back * speed * Time.deltaTime);
         }
         else
         {
            
            transform.position = new Vector3(user.transform.position.x,transform.position.y,transform.position.z);
         }
-        if (transform.position.y < 0)
+        if (transform.position.z< -9)
         {
             Destroy();
         }

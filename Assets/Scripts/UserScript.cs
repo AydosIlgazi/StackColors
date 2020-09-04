@@ -5,8 +5,8 @@ using UnityEngine;
 public class UserScript : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
-    [SerializeField] float minX = 1.5f;
-    [SerializeField] float maxX = 16.5f;
+    [SerializeField] float minX = 0f;
+    [SerializeField] float maxX = 18f;
     [SerializeField] float screenWidthWithUnits = 18f;
     [SerializeField] Material[] materials;
     [SerializeField] List<Block> blocks;

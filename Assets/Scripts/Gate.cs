@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
-    [SerializeField] float speed = 7f;
+    [SerializeField] float speed = 17f;
     GameObject user;
     [SerializeField] GlobalVars.Color color;
     // Start is called before the first frame update
@@ -16,8 +16,8 @@ public class Gate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
-        if (transform.position.y < 0)
+        transform.Translate(Vector3.back * speed * Time.deltaTime);
+        if (transform.position.z < -9)
         {
             Destroy();
         }
