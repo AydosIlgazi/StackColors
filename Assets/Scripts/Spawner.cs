@@ -46,13 +46,13 @@ public class Spawner : MonoBehaviour
     }
     Block GetBlokWithUserMaterial()
     {
-        Material userMaterial = user.gameObject.GetComponent<MeshRenderer>().sharedMaterial;
+        var userColor = user.GetColor();
         Block block;
-        if(userMaterial == blocks[0].GetComponent<MeshRenderer>().sharedMaterial)
+        if(userColor == blocks[0].GetComponent<Block>().GetColor())
         {
             block = blocks[0].GetComponent<Block>();
         }
-        else if (userMaterial == blocks[1].GetComponent<MeshRenderer>().sharedMaterial)
+        else if (userColor == blocks[1].GetComponent<Block>().GetColor())
         {
             block = blocks[1].GetComponent<Block>();
         }

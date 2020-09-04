@@ -8,11 +8,11 @@ public class UserScript : MonoBehaviour
     [SerializeField] float minX = 1.5f;
     [SerializeField] float maxX = 16.5f;
     [SerializeField] float screenWidthWithUnits = 18f;
-    [SerializeField] string color;
     [SerializeField] Material[] materials;
     [SerializeField] List<Block> blocks;
     Rigidbody rb;
     List<string> colorSet;
+    [SerializeField] GlobalVars.Color color;
     int numberOfBlocks=0;
     // Start is called before the first frame update
     void Start()
@@ -21,6 +21,18 @@ public class UserScript : MonoBehaviour
         blocks = new List<Block>();
         int startingColor = Random.Range(0, 3);
         GetComponent<MeshRenderer>().material = materials[startingColor];
+        if(startingColor == 0)
+        {
+            color = GlobalVars.Color.red;
+        }
+        else if (startingColor == 1)
+        {
+            color = GlobalVars.Color.green;
+        }
+        else
+        {
+            color = GlobalVars.Color.blue;
+        }
 
     }
 
@@ -62,8 +74,17 @@ public class UserScript : MonoBehaviour
     {
         foreach( Block block in blocks)
         {
-            block.GetComponent<MeshRenderer>().sharedMaterial = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
+            block.SetColor(color,gameObject);
         }
     }
-
+    public void SetColor(GlobalVars.Color color,GameObject gameObjectGate)
+    {
+        this.color = color;
+        gameObject.GetComponent<MeshRenderer>().sharedMaterial = gameObjectGate.GetComponent<MeshRenderer>().sharedMaterial;
+    }
+    public GlobalVars.Color GetColor()
+    {
+        return color;
+    }
+ 
 }

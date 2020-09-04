@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    [SerializeField] string color;
     [SerializeField] float speed = 9f;
     GameObject user;
     float offset = 1f;
     Rigidbody rb;
     Vector3 offsetVector;
     bool isCollisionOcurred = false;
+    [SerializeField] GlobalVars.Color color;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +42,7 @@ public class Block : MonoBehaviour
     {
         //Debug.Log("blok collision");
 
-        if (gameObject.GetComponent<MeshRenderer>().sharedMaterial== collision.gameObject.GetComponent<MeshRenderer>().sharedMaterial)
+        if (color== collision.gameObject.GetComponent<UserScript>().GetColor())
         {
             collision.gameObject.GetComponent<UserScript>().addBlock(gameObject.GetComponent<Block>());
             isCollisionOcurred = true;
@@ -65,5 +65,14 @@ public class Block : MonoBehaviour
     public void Destroy()
     {
         Destroy(gameObject);
+    }
+    public void SetColor(GlobalVars.Color color,GameObject gameObjectUser)
+    {
+        this.color = color;
+        gameObject.GetComponent<MeshRenderer>().sharedMaterial = gameObjectUser.GetComponent<MeshRenderer>().sharedMaterial;
+    }
+    public GlobalVars.Color GetColor()
+    {
+        return color;
     }
 }

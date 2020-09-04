@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
-    [SerializeField] string color;
     [SerializeField] float speed = 7f;
     GameObject user;
+    [SerializeField] GlobalVars.Color color;
     // Start is called before the first frame update
     void Start()
     {
         user = GameObject.Find("User");
-
     }
 
     // Update is called once per frame
@@ -29,7 +28,7 @@ public class Gate : MonoBehaviour
        // Debug.Log("gate Tigger enter");
        if(collider.name == "User")
         {
-            collider.GetComponent<MeshRenderer>().sharedMaterial = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
+            UpdateUserColor(collider.gameObject);
             collider.gameObject.GetComponent<UserScript>().UpdateBlockColors();
         }
 
@@ -38,5 +37,10 @@ public class Gate : MonoBehaviour
     public void Destroy()
     {
         Destroy(gameObject);
+    }
+
+    public void UpdateUserColor(GameObject user)
+    {
+        user.GetComponent<UserScript>().SetColor(color,gameObject);
     }
 }
