@@ -10,6 +10,7 @@ public class UserScript : MonoBehaviour
     [SerializeField] float screenWidthWithUnits = 18f;
     [SerializeField] Material[] materials;
     [SerializeField] List<Block> blocks;
+    public Camera mainCamara;
     Rigidbody rb;
     List<string> colorSet;
     [SerializeField] GlobalVars.Color color;
@@ -39,31 +40,35 @@ public class UserScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector2 userPos = new Vector2(Mathf.Clamp(transform.position.x, minX, maxX), transform.position.y);
-        transform.position = userPos;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        Vector3 userPos = new Vector3(Mathf.Clamp(transform.position.x, minX, maxX), transform.position.y, transform.position.z);
+        //transform.position = userPos;
+        if (transform.position.x>1.5f&& Input.GetKey(KeyCode.LeftArrow))
         {
-            rb.MovePosition(transform.position + Vector3.left * Time.deltaTime * speed);
+            rb.MovePosition(userPos + Vector3.left * Time.deltaTime * speed);
             //transform.position += Vector3.left * speed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (transform.position.x < 16.5f && Input.GetKey(KeyCode.RightArrow))
         {
-            rb.MovePosition(transform.position + Vector3.right * Time.deltaTime * speed);
+
+            rb.MovePosition(userPos + Vector3.right * Time.deltaTime * speed);
 
             //transform.position += Vector3.right * speed * Time.deltaTime;
         }
     }
     public void addBlock(Block block)
     {
-        Debug.Log("Add Blok");
+        rb.velocity = Vector3.zero;
         blocks.Add(block);
+        mainCamara.fieldOfView += 1f;
     }
     public void removeBlock()
     {
-        Debug.Log("Remove Blok");
+        rb.velocity = Vector3.zero;
+
         var block = blocks[blocks.Count - 1];
         blocks.RemoveAt(blocks.Count - 1);
-        block.GetComponent<Block>().Destroy();
+        block.GetComponent<Block>().DestroyWithAnimation();
+        mainCamara.fieldOfView -= 1f;
     }
     public int getBlockNumber()
     {

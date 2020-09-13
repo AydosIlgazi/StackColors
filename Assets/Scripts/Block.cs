@@ -32,9 +32,9 @@ public class Block : MonoBehaviour
            
            transform.position = new Vector3(user.transform.position.x,transform.position.y,transform.position.z);
         }
-        if (transform.position.z< -9)
+        if (transform.position.z< -20)
         {
-            Destroy();
+            Destroy(gameObject);
         }
 
     }
@@ -47,24 +47,64 @@ public class Block : MonoBehaviour
             collision.gameObject.GetComponent<UserScript>().addBlock(gameObject.GetComponent<Block>());
             isCollisionOcurred = true;
             Vector3 pos = new Vector3(collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
-            transform.position = pos + offsetVector * collision.gameObject.GetComponent<UserScript>().getBlockNumber();
+            pos = pos + offsetVector * collision.gameObject.GetComponent<UserScript>().getBlockNumber();
+            float animationTime = collision.gameObject.GetComponent<UserScript>().getBlockNumber() * 0.1f;
+            StartCoroutine(BlockStackAnimation(pos, animationTime,collision.gameObject));
         }
         else
         {
-            collision.gameObject.GetComponent<UserScript>().removeBlock();
-            Destroy();
+            if (collision.gameObject.name == "User")
+            {
+                collision.gameObject.GetComponent<UserScript>().removeBlock();
+                Destroy(gameObject);
+            }
+            
         }
 
     }
-
-    void OnTriggerEnter(Collider collider)
+    IEnumerator BlockStackAnimation(Vector3 target, float animationTime,GameObject user)
     {
-        Debug.Log("block trigger method");
+        Vector3 current = gameObject.transform.position;
+
+        float elapsedTime = 0;
+
+        while (elapsedTime < animationTime)
+        {
+            target.x = user.transform.position.x;
+            //rb.MovePosition(Vector3.Lerp(current, target, (elapsedTime / animationTime)));
+            transform.position = Vector3.Lerp(current, target, (elapsedTime / animationTime));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+
+        yield return null;
+
+    }
+    IEnumerator BlockDestroyAnimation(float animationTime)
+    {
+        Vector3 current = gameObject.transform.position;
+
+        float elapsedTime = 0;
+        Vector3 scale = gameObject.transform.localScale;
+        while (elapsedTime < animationTime && scale.x>0 && scale.y>0 && scale.z>0)
+        {
+            gameObject.transform.localScale -= new Vector3(0.15f, 0.05f, 0.05f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+
+        yield return null;
+        Destroy(gameObject);
     }
 
-    public void Destroy()
+
+
+    public void DestroyWithAnimation()
     {
-        Destroy(gameObject);
+        StartCoroutine(BlockDestroyAnimation(0.3f));
+        
     }
     public void SetColor(GlobalVars.Color color,GameObject gameObjectUser)
     {
